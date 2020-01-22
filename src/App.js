@@ -2,19 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 function App() {
-  const [data, setData] = useState([])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const results = await axios('https://api.github.com/repos/koyo-miyamura/vue_api_spa/pulls',{
-        params: {
-          state: 'closed'
-        }
-      })
-      setData(results.data)
-    }
-    fetchData()
-  }, [])
+  const data = useFetchData()
 
   return (
     <div>
@@ -29,3 +17,21 @@ function App() {
 }
 
 export default App;
+
+function useFetchData() {
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const results = await axios('https://api.github.com/repos/koyo-miyamura/vue_api_spa/pulls',{
+        params: {
+          state: 'closed'
+        }
+      })
+      setData(results.data)
+    }
+    fetchData()
+  }, [])
+
+  return data
+}
